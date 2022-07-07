@@ -6,7 +6,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    Hi {{ user.email }}!
+    <p>Hi {{ user.email }}!</p>
     <h1 class="cardHeader">List Page</h1>
     <a href="{% url 'add' %}">Add</a>
     <div class="card">
