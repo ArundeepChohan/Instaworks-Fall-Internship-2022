@@ -6,6 +6,7 @@ from django.contrib.auth import login as auth_login, logout as auth_logout,authe
 from .forms import AddForm, UserProfileForm, Profile
 from .models import Team
 from django.db.models.query_utils import Q
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
     context={}
@@ -33,7 +34,7 @@ def login(request):
     else:
         form = AuthenticationForm()
     return render(request, 'login.html',{'form':form})
-
+@login_required(login_url='/login')
 def add(request):
     context={}
     add_form = AddForm(request.POST or None)
@@ -83,7 +84,7 @@ def add(request):
     else:
         pass
     return render(request, 'add.html',context)
-
+@login_required(login_url='/login')
 def edit(request,user_id):
     context={}
     try:
