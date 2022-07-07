@@ -10,10 +10,11 @@
     <h1>Add a team member</h1>
         <p>Set email, location and role</p>
     </div>
+    <h1>Info:</h1>
     <form method = "POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
         {{ addForm.as_p }}
-        <input type="submit" name="addForm" value="Save">
+        <input type="submit" class="btn btn-primary" name="addForm" value="Save">
     </form>
 </div>
 
