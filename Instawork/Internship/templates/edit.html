@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Add{% endblock %}
+
+{% block content %}
+<h1 class="cardHeader">Edit Page</h1>
+<div class="card">
+
+    <div class="container">
+    <h1>Edit team member</h1>
+        <p>Edit contact info,location and role</p>
+    </div>
+    <form method = "POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ editProfileForm.as_p }}
+        <input type="submit" name="editProfileForm" value="Save">
+        <!-- Check if the user who can delete the team member is the same team and had admin role?  -->
+        {% if is_edit and team == request.user.team %}
+            <input type="submit" name="deleteProfileForm" value="Delete">
+        {% endif %}
+    </form> 
+
+</div>
+
+{% endblock %}

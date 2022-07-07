@@ -1,0 +1,17 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Instawork Fall Intership 2022{% endblock %}</title>
+</head>
+<body>
+  <main>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}"/>
+
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>

@@ -1,0 +1,18 @@
+div.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+
+}
+
+div.container {
+    padding: 10px;
+}
+h1.cardHeader{
+  background: rgb(152,152,152);
+}
+div.listItems {
+  background: rgb(255, 255, 255);
+}
+div.listItems:hover {
+  background: rgb(152,152,152);
+}

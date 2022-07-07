@@ -1,0 +1,42 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+    Hi {{ user.username }}!
+    <h1 class="cardHeader">List Page</h1>
+    <a href="{% url 'add' %}">Add</a>
+    <div class="card">
+
+        <div class="container">
+        <h1> Team members</h1>
+        {% if team %}
+            <p>You have {{team|length}} team members.</p>
+            
+            {% for member in team %}
+                <div class="listItems" onclick="location.href='/edit/{{member.id}}';" >
+                    <p>{{member.first_name}}{{member.last_name}}
+                        {% if member.is_edit %}
+                           (Admin)
+                        {% endif %}
+                    </p>
+                    
+                    <p>{{member.email}}</p>
+                    <p>{{member.phone_number}}</p>
+                
+                </div>
+                
+            {% endfor %}
+        </div>
+        {% else %}
+            <p>You have 0 team members.</p>
+        {% endif %}
+    </div>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+{% endblock %}

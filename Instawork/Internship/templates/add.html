@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Add{% endblock %}
+
+{% block content %}
+<h1 class="cardHeader">Add Page</h1>
+<div class="card">
+
+    <div class="container">
+    <h1>Add a team member</h1>
+        <p>Set email, location and role</p>
+    </div>
+    <form method = "POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ addForm.as_p }}
+        <input type="submit" name="addForm" value="Save">
+    </form>
+</div>
+
+{% endblock %}
