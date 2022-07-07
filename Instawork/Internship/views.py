@@ -96,8 +96,8 @@ def edit(request,user_id):
     context['team']=user.team
     context['is_edit']=request.user.is_edit
     #Currently logged in user has to have is_edit? and be the same team
-    #if request.user.team != user.team and request.user.is_edit:
-        #return redirect('home')
+    if request.user.team != user.team or request.user.is_edit==False:
+        return redirect('home')
     
     if request.method=="POST":
         if "editProfileForm" in request.POST:
