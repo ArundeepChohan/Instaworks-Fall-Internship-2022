@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .forms import UserProfileForm
+from .forms import ProfileForm
 from .models import Profile
 
 class CustomUserAdmin(UserAdmin):
-    add_form = UserProfileForm
+    add_form = ProfileForm
     model = Profile
     list_display=('id','email','password','first_name','last_name','phone_number','is_edit','team')
     ordering = ('email',)

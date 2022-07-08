@@ -3,7 +3,7 @@ import re
 from django.shortcuts import redirect, render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout,authenticate
-from .forms import AddForm, UserProfileForm, Profile
+from .forms import  ProfileForm,  Profile
 from .models import Team
 from django.db.models.query_utils import Q
 from django.contrib.auth.decorators import login_required
@@ -37,7 +37,7 @@ def login(request):
 @login_required(login_url='/login')
 def add(request):
     context={}
-    add_form = AddForm(request.POST or None)
+    add_form = ProfileForm(request.POST or None)
     context['addForm']=add_form
     try:
         user = Profile.objects.get(id=request.user.id)
@@ -103,7 +103,7 @@ def edit(request,user_id):
     if request.method=="POST":
         if "editProfileForm" in request.POST:
             print('Editing')
-            edit_profile_form = UserProfileForm(request.POST or None,instance=user)
+            edit_profile_form = ProfileForm(request.POST or None,instance=user)
             if edit_profile_form.is_valid(): 
                 edit_profile_form.save()
                 print(edit_profile_form)
@@ -125,6 +125,6 @@ def edit(request,user_id):
             return redirect('home')
        
     else:
-        edit_profile_form = UserProfileForm(request.POST or None,instance=user)
+        edit_profile_form = ProfileForm(request.POST or None,instance=user)
         context['editProfileForm'] = edit_profile_form
     return render(request,'edit.html',context)
