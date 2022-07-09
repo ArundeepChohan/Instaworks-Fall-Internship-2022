@@ -155,6 +155,7 @@ class Instawork(TestCase):
         }
         form = ProfileForm(data=form_data)
         self.assertNotIn('phone_number', form.errors)
+        
     def test_form_phone_number_incorrect_validity(self):
         form_data = {
             'phone_number': '3783711066',
