@@ -59,7 +59,7 @@ def add(request):
             print(user.team)
 
         if add_form.is_valid():
-            
+            #add_form.password=new_password
             #add_form.save() 
             post = request.POST
             print(post['email'])
