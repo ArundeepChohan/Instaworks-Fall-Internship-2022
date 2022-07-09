@@ -15,6 +15,8 @@ class Instawork(TestCase):
         self.user.save()
         self.login_url =  reverse('login')
         self.add_url = reverse('add')
+        self.home_url =  reverse('home')
+        self.edit_url = reverse('edit')
 
     def test_first_name_label(self):
         author = self.user
@@ -81,21 +83,33 @@ class Instawork(TestCase):
         self.assertEqual(author.team,new_team)
 
     def test_get_home_page(self):
-        response = self.client.get('/')
+        response = self.client.get(self.home_url)
         self.assertEqual(response.status_code,200)
         self.assertTemplateUsed(response,"home.html")
+    
     def test_get_login_page(self):
         response = self.client.get(self.login_url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,"login.html") 
+    
     def test_login(self):
-        user_login = self.client.post(self.login_url, {'email': self.user.email, 'password': self.user.password})
-        #self.assertTrue(user_login.context['user'].is_authenticated)
-        self.assertTemplateUsed(user_login,"home.html")
+        self.client.force_login(self.user)
+        response = self.client.post(self.home_url, follow=True)
+        self.assertTrue(response.context['user'].is_authenticated)
+        self.assertTemplateUsed(response,"home.html")
+    
     def test_get_add_page(self):
-        response=self.client.post(self.login_url, {'email': self.user.email, 'password': self.user.password})
+        self.client.force_login(self.user)
+        response = self.client.get(self.add_url, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,"add.html")
+    
+    def test_get_edit_page(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('edit', kwargs={'user_id': self.user.id}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,"edit.html")
+
     def test_form_email_duplicate_validity(self):
         form_data = {
             'email': 'a@hotmail.com',
@@ -104,6 +118,7 @@ class Instawork(TestCase):
         self.assertIn('email', form.errors)
         print(form.errors['email'])
         self.assertTrue(form.errors['email'],['User with this Email address already exists.'])
+    
     def test_form_email_validity(self):
         form_data = {
             'email': 'b@hotmail.com',
