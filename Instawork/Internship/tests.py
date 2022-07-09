@@ -1,3 +1,4 @@
+from django.forms import ModelForm
 from django.test import TestCase, Client
 from django.urls import reverse
 
@@ -25,20 +26,18 @@ class Instawork(TestCase):
             field_label = author._meta.get_field(label).verbose_name
             # print(field_label)
             self.assertEqual(field_label, value)
-        except:
-            self.assertFalse(True)
+        except Exception:
+            self.fail("No label with the passed label: "+label)
 
-        
     def test_max_length(self,label='',value=''):
         author = self.user
         try:
             max_length = author._meta.get_field(label).max_length
             # print(max_length)
             self.assertEqual(max_length, value)
-        except:
-            self.assertFalse(True)
+        except Exception:
+            self.fail("No label with the passed label: "+label)
         
-
     def test_first_name_label(self):
         self.test_label('first_name','first name')
 
@@ -74,6 +73,8 @@ class Instawork(TestCase):
             author.team = new_team
             author.save()
         # print(author.team)
+        else:
+            new_team=author.team
         self.assertEqual(author.team, new_team)
 
     def test_page(self,url='',template=''):
@@ -82,7 +83,7 @@ class Instawork(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertTemplateUsed(response, template)
         except:
-            self.assertFalse(True)
+            self.fail("Improper url or template given:"+url+" "+template)
 
     def test_get_home_page(self):
         self.test_page(self.home_url,"home.html")
@@ -105,7 +106,6 @@ class Instawork(TestCase):
         self.assertTrue(response.context['user'].is_authenticated)
         self.assertTemplateUsed(response, "home.html")
 
-
     def test_get_edit_page(self):
         self.client.force_login(self.user)
         response = self.client.get(reverse('edit', kwargs={'user_id': self.user.id}))
@@ -114,13 +114,12 @@ class Instawork(TestCase):
 
     def test_form_email_duplicate_validity(self):
         form_data = {
-            'email': 'a@hotmail.com',
+            'email': self.user.email,
         }
         form = ProfileForm(data=form_data)
         self.assertIn('email', form.errors)
         print(form.errors['email'])
-        self.assertTrue(form.errors['email'], [
-                        'User with this Email address already exists.'])
+        self.assertTrue(form.errors['email'], ['User with this Email address already exists.'])
 
     def test_form_email_validity(self):
         form_data = {
@@ -150,9 +149,16 @@ class Instawork(TestCase):
         form = ProfileForm(data=form_data)
         self.assertNotIn('last_name', form.errors)
 
-    def test_form_last_name_validity(self):
+    def test_form_phone_number_validity(self):
         form_data = {
             'phone_number': '+17783711066',
         }
         form = ProfileForm(data=form_data)
         self.assertNotIn('phone_number', form.errors)
+    def test_form_phone_number_incorrect_validity(self):
+        form_data = {
+            'phone_number': '3783711066',
+        }
+        form = ProfileForm(data=form_data)
+        self.assertIn('phone_number', form.errors)
+    
