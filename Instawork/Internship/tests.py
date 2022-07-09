@@ -16,7 +16,6 @@ class Instawork(TestCase):
         self.login_url =  reverse('login')
         self.add_url = reverse('add')
         self.home_url =  reverse('home')
-        self.edit_url = reverse('edit')
 
     def test_first_name_label(self):
         author = self.user
