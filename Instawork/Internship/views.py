@@ -1,5 +1,4 @@
 from multiprocessing import AuthenticationError
-import re
 from django.shortcuts import redirect, render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout,authenticate
@@ -59,8 +58,6 @@ def add(request):
             print(user.team)
 
         if add_form.is_valid():
-            #add_form.password=new_password
-            #add_form.save() 
             post = request.POST
             print(post['email'])
             new_password = post['first_name']+post['last_name']
