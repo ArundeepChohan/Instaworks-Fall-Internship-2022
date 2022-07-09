@@ -38,7 +38,7 @@ def login(request):
 def add(request):
     context={}
     add_form = ProfileForm(request.POST or None)
-    context['addForm']=add_form
+    context['addForm'] = add_form
     try:
         user = Profile.objects.get(id=request.user.id)
         print(user)
