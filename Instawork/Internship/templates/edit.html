@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Add{% endblock %}
+{% block title %}Edit{% endblock %}
 
 {% block content %}
 <h1 class="cardHeader">Edit Page</h1>
@@ -14,11 +14,12 @@
         <h1>Info:</h1>
         {% csrf_token %}
         {{ editProfileForm.as_p }}
-        <input type="submit" class="btn btn-primary" name="editProfileForm" value="Save">
         <!-- Check if the user who can delete the team member is the same team and had admin role?  -->
         {% if is_edit and team == request.user.team %}
             <input type="submit" name="deleteProfileForm" value="Delete">
         {% endif %}
+        <input type="submit" class="btn btn-primary" name="editProfileForm" value="Save">
+        
     </form> 
 
 </div>
